@@ -6,12 +6,12 @@
   <parent>
     <artifactId>mojo-parent</artifactId>
     <groupId>org.codehaus.mojo</groupId>
-    <version>29</version>
+    <version>76</version>
   </parent>
 
   <groupId>org.codehaus.mojo</groupId>
   <artifactId>jasperreports-maven-plugin</artifactId>
-  <version>1.0-beta-4-OPENNMS-SNAPSHOT</version>
+  <version>1.0-beta-5-OPENNMS-SNAPSHOT</version>
 
   <packaging>maven-plugin</packaging>
 
@@ -28,14 +28,14 @@
   </licenses>
 
   <prerequisites>
-    <maven>2.0.6</maven>
+    <maven>3.3.3</maven>
   </prerequisites>
   
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/jasperreports-maven-plugin</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/jasperreports-maven-plugin</developerConnection>
-    <url>http://svn.codehaus.org/mojo/trunk/mojo/jasperreports-maven-plugin</url>
+    <connection>scm:git:https://github.com/OpenNMS/jasperreports-maven-plugin.git</connection>
+    <developerConnection>scm:git:https://github.com/OpenNMS/jasperreports-maven-plugin.git</developerConnection>
+    <url>https://github.com/OpenNMS/jasperreports-maven-plugin</url>
   </scm>
 
 
@@ -69,27 +69,28 @@
     <dependency>
       <groupId>net.sf.jasperreports</groupId>
       <artifactId>jasperreports</artifactId>
-      <version>6.3.0</version>
+      <version>${jasper.version}</version>
     </dependency>
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-core</artifactId>
+      <version>${maven.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
+      <version>${maven.version}</version>
     </dependency>
     <!-- Plexus -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.0.24</version>
+      <version>${plexus-utils.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-compiler-api</artifactId>
-      <version>2.8</version>
+      <version>${plexus.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.codehaus.plexus</groupId>
@@ -100,7 +101,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-compiler-manager</artifactId>
-      <version>2.8</version>
+      <version>${plexus.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.codehaus.plexus</groupId>
@@ -111,7 +112,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-compiler-javac</artifactId>
-      <version>2.8</version>
+      <version>${plexus.version}</version>
       <scope>runtime</scope>
       <exclusions>
         <exclusion>
@@ -121,19 +122,37 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-toolchain</artifactId>
-      <version>2.2.1</version>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <properties>
     <mojo.java.target>1.8</mojo.java.target>
+    <jasper.version>6.20.5</jasper.version>
+    <plexus.version>2.13.0</plexus.version>
+    <plexus-utils.version>4.0.0</plexus-utils.version>
   </properties>
 
+  <profiles>
+    <profile>
+      <id>old</id>
+      <activation>
+        <property>
+          <name>env.TARGET_ENV</name>
+          <value>old</value>
+        </property>
+      </activation>
+      <properties>
+        <mojo.java.target>1.5</mojo.java.target>
+        <maven.compiler.source>1.5</maven.compiler.source>
+        <maven.compiler.target>1.5</maven.compiler.target>
+        <jasper.version>6.2.2</jasper.version>
+        <plexus.version>2.8.2</plexus.version>
+        <plexus-utils.version>3.1.0</plexus-utils.version>
+      </properties>
+    </profile>
+  </profiles>
 </project>
